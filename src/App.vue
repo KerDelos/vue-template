@@ -4,12 +4,10 @@
     <n-grid x-gap="12" :cols="12">
       <n-gi :offset="1" :span="10">
         <n-menu
-          v-model:value="menuActiveKey"
+          :value="menuActiveKey"
           :options="menuOptions"
           mode="horizontal"
         />
-        <!-- <p>{{ route.name }}</p>
-        <p>{{ menuActiveKey }}</p> -->
         <RouterView />
       </n-gi>
     </n-grid>
@@ -17,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, h, onMounted } from "vue";
+import { ref, h, onMounted, computed } from "vue";
 import type { Ref } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import {
@@ -36,9 +34,7 @@ import { useSettingsStore } from "@/stores/settings";
 const settings = useSettingsStore();
 
 const route = useRoute();
-//TODO this doesn't behave properly for now
-onMounted(() => (menuActiveKey.value = route.name?.toString()));
-const menuActiveKey: Ref<string | undefined | null> = ref("");
+const menuActiveKey = computed(() => route.name?.toString()); 
 const menuOptions: MenuOption[] = [
   {
     label: () =>
